@@ -1,0 +1,315 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Flipkart-like e-commerce frontend (storefront, cart, orders, admin, II auth)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add Internet Identity sign-in/out UI and an account area showing the logged-in principal.",
+      "acceptanceCriteria": [
+        "User can sign in using Internet Identity and sees their principal on the UI",
+        "User can sign out and returns to signed-out state",
+        "Signed-in state is preserved across refresh (within the session handling provided by the template hooks)"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the top-level app shell that reads auth state via the existing useInternetIdentity hook, renders a header with sign-in/sign-out, and includes an Account route showing the principal when authenticated. Use the selected authorization component patterns for login/logout cache clearing; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/AccountPage.tsx",
+          "operation": "create",
+          "description": "Implement an Account page that shows the authenticated user's principal (and optionally basic profile status) and provides a sign-out action wired to useInternetIdentity.clear() plus React Query cache clearing. Use the selected authorization component guidance for authenticated UX; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "create",
+          "description": "Add a reusable login/logout button component using useInternetIdentity and clearing React Query cache on logout as recommended by the selected authorization component docs; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Build storefront UI: home sections, product list with search/filter/sort, and product detail view with add-to-cart.",
+      "acceptanceCriteria": [
+        "Users can browse a product grid and open a product details view",
+        "Search, category filtering, and sorting update the product list results",
+        "Product detail page shows title, description, price, image gallery, stock status, and an Add to Cart button",
+        "UI uses React Query for data fetching/caching and handles loading/empty/error states"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useProducts.ts",
+          "operation": "create",
+          "description": "Create React Query hooks for listing products, searching products, filtering by category, retrieving popular products, and fetching a single product using the backend actor from useActor(). Include loading/empty/error state helpers for UI consumption."
+        },
+        {
+          "path": "frontend/src/hooks/useCategories.ts",
+          "operation": "create",
+          "description": "Create React Query hooks to fetch categories and expose them for filters/navigation using the backend actor from useActor()."
+        },
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "create",
+          "description": "Implement the Home page with featured sections (e.g., Popular products) and a hero/header area that uses the generated hero asset at frontend/public/assets/generated/hero-banner.dim_1600x600.png. Use shadcn-ui building blocks (e.g., cards/buttons) for consistent layout; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ShopPage.tsx",
+          "operation": "create",
+          "description": "Implement the product listing page with a product grid, search box, category filter, and sort options. Use React Query hooks and handle loading/empty/error states. Use shadcn-ui components for inputs/selects/cards; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ProductDetailPage.tsx",
+          "operation": "create",
+          "description": "Implement product detail view (route param id) that fetches product data with React Query, shows title/description/price/stock status, and provides Add to Cart controls. Use shadcn-ui components for gallery layout, buttons, and alerts; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/products/ProductGrid.tsx",
+          "operation": "create",
+          "description": "Create a reusable product grid component used by Home/Shop pages with consistent cards, price formatting, and skeleton/loading support. Use shadcn-ui card primitives; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/products/ProductCard.tsx",
+          "operation": "create",
+          "description": "Create a product card component (title, price, stock) that links to Product Detail. Use shadcn-ui components for card/button styling; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Implement cart UX: add/remove/update quantity, show totals, and persist per signed-in user with optional local cart for guests.",
+      "acceptanceCriteria": [
+        "Signed-in user’s cart is stored on the backend and restored on refresh",
+        "Cart UI shows line items, quantities, subtotal, and total",
+        "Quantity changes update totals immediately and are persisted",
+        "Removing an item updates backend and UI state"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useCart.ts",
+          "operation": "create",
+          "description": "Create React Query hooks and mutations for getCart/getCartTotal and addToCart/removeFromCart/updateCartQuantity/clearCart via the backend actor. Include optimistic UI updates where safe and invalidate relevant queries on mutation success/failure."
+        },
+        {
+          "path": "frontend/src/state/guestCart.ts",
+          "operation": "create",
+          "description": "Implement optional guest cart persistence using localStorage (ephemeral cart for signed-out users), plus helpers to merge/clear when a user becomes authenticated."
+        },
+        {
+          "path": "frontend/src/pages/CartPage.tsx",
+          "operation": "create",
+          "description": "Implement Cart page showing line items, quantity controls, subtotal/total, remove actions, and empty state that uses frontend/public/assets/generated/empty-cart.dim_800x600.png. Use shadcn-ui components for tables/forms/alerts; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/cart/CartLineItem.tsx",
+          "operation": "create",
+          "description": "Create a reusable cart line item row with quantity stepper/input, remove button, and per-line total display. Use shadcn-ui inputs/buttons; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Implement checkout form, order placement, confirmation, and order history/detail pages.",
+      "acceptanceCriteria": [
+        "Checkout form collects shipping address and validates required fields",
+        "Placing an order creates an order record and clears the cart",
+        "Stock is validated on the backend; if insufficient, order creation fails with a clear error",
+        "User can view order history and order detail pages with statuses (e.g., Pending, Confirmed, Shipped, Delivered, Cancelled)"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useOrders.ts",
+          "operation": "create",
+          "description": "Create React Query hooks for order history (getOrderHistory), order detail (getOrder), and checkout mutation (checkout). Ensure cart queries are cleared/invalidated after successful checkout."
+        },
+        {
+          "path": "frontend/src/pages/CheckoutPage.tsx",
+          "operation": "create",
+          "description": "Implement checkout page with shipping address form, inline validation, submit that calls checkout mutation, and clear user-friendly errors when backend rejects (e.g., out-of-stock). Use shadcn-ui form inputs and alert components; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/OrderConfirmationPage.tsx",
+          "operation": "create",
+          "description": "Implement an order confirmation page that reads the created order id from navigation state/route param and shows a success summary and link to order detail/history."
+        },
+        {
+          "path": "frontend/src/pages/OrdersPage.tsx",
+          "operation": "create",
+          "description": "Implement order history list for the signed-in user with links to order detail. Handle loading/empty/error states with a consistent UI pattern using shadcn-ui; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/OrderDetailPage.tsx",
+          "operation": "create",
+          "description": "Implement order detail page (route param id) that fetches and renders the order contents, address, totals, and status-like labeling supported by backend. Use shadcn-ui components for layout; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Add admin/seller area (role-protected) for managing products/inventory and viewing incoming orders.",
+      "acceptanceCriteria": [
+        "Admin-only routes are hidden/blocked for non-admin users",
+        "Admin can create a product with title, description, price, category, stock, and image URLs",
+        "Admin can edit and delete products",
+        "Admin can view a list of orders and inspect order details"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useAdmin.ts",
+          "operation": "create",
+          "description": "Create hooks for admin role checks (isCallerAdmin/getCallerUserRole) and admin data fetching (getAllOrders) using React Query. Use the selected authorization component patterns for access control UX; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/AdminRouteGuard.tsx",
+          "operation": "create",
+          "description": "Implement an admin-only route wrapper that blocks unauthorized access with a clear message or redirect. Use the selected authorization component guidance for AccessDenied UX; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/admin/AdminDashboardPage.tsx",
+          "operation": "create",
+          "description": "Implement an admin landing page with navigation to product management and order management. Use shadcn-ui layout primitives; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/admin/AdminProductsPage.tsx",
+          "operation": "create",
+          "description": "Implement admin products list with create/edit/delete actions and inventory (stock) management. Use shadcn-ui tables, dialogs, and form components; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/admin/AdminOrdersPage.tsx",
+          "operation": "create",
+          "description": "Implement incoming orders list for admins using getAllOrders with links to order detail view. Use shadcn-ui components; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/admin/ProductEditorDialog.tsx",
+          "operation": "create",
+          "description": "Create a dialog/modal form for creating/editing a product (title, description, price, category, stock, image URLs) with validation and backend error display. Use shadcn-ui dialog/form components; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Apply a cohesive modern theme with Tailwind and consistent component styling, avoiding a blue/purple-dominant palette.",
+      "acceptanceCriteria": [
+        "Theme is consistently applied across all pages with Tailwind styling and existing UI components",
+        "Layout is responsive for mobile and desktop (navigation, grids, forms)",
+        "No blue/purple-dominant palette is used in the primary theme colors"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Add Tailwind base + CSS variables/theme tokens for a warm neutral palette (avoid blue/purple-dominant primary colors), plus global typography and layout defaults used across storefront/cart/checkout/admin."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust Tailwind theme extensions (if needed) to support the warm neutral palette and consistent radius/shadows for a modern e-commerce look while keeping existing shadcn-ui token structure intact."
+        },
+        {
+          "path": "frontend/src/components/layout/AppLayout.tsx",
+          "operation": "create",
+          "description": "Create a responsive layout wrapper (header/nav/footer, container sizing) used across all routes. Use shadcn-ui components for navigation elements and consistent spacing; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Add routing and navigation for Home, Shop, Product Detail, Cart, Checkout, Orders, Account, and Admin (authorized).",
+      "acceptanceCriteria": [
+        "All routes are reachable via UI navigation",
+        "Unauthorized access to admin pages is blocked with a clear message or redirect",
+        "Deep links to product details and orders work via route params"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire up client-side routing for: Home, Shop/Browse, Product Detail (param), Cart, Checkout, Orders, Order Detail (param), Account, and Admin routes guarded by AdminRouteGuard. Ensure navigation links exist in the header layout and admin links are hidden when not authorized. Use the selected authorization component patterns; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/layout/TopNav.tsx",
+          "operation": "create",
+          "description": "Implement top navigation with links to Home, Shop, Cart, Orders, Account, and Admin (conditionally). Include logo usage from frontend/public/assets/generated/shop-logo.dim_512x512.png. Use shadcn-ui components for nav/buttons/menus; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Add frontend validation and consistent error messaging for critical flows (admin product form, cart updates, checkout, order creation).",
+      "acceptanceCriteria": [
+        "Frontend forms show inline validation errors for required fields and invalid values",
+        "Backend methods return structured errors for common failures (not found, unauthorized, validation, out of stock)",
+        "Frontend displays backend error messages in a consistent UI pattern"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/feedback/ErrorAlert.tsx",
+          "operation": "create",
+          "description": "Create a reusable error alert component for consistent display of backend/user errors across pages. Use shadcn-ui alert/toast patterns if available; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/lib/validation.ts",
+          "operation": "create",
+          "description": "Add shared validation helpers for product fields (admin), quantity updates (cart), and shipping address (checkout), returning field-level error maps suitable for inline display."
+        },
+        {
+          "path": "frontend/src/pages/CheckoutPage.tsx",
+          "operation": "modify",
+          "description": "Integrate inline validation and consistent error alert display for checkout submission failures (including out-of-stock) using the shared validation and ErrorAlert components. Use shadcn-ui form primitives; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/admin/AdminProductsPage.tsx",
+          "operation": "modify",
+          "description": "Add inline validation and user-friendly error handling for create/edit/delete product operations using the shared validation and ErrorAlert components. Use shadcn-ui components; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/CartPage.tsx",
+          "operation": "modify",
+          "description": "Display cart mutation errors consistently (e.g., invalid quantity) using ErrorAlert and ensure UI reflects mutation state clearly. Use shadcn-ui components; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "summary": "Add required static brand assets (logo, hero/banner, empty-cart) under public assets and render them in the UI.",
+      "acceptanceCriteria": [
+        "Generated images are added under frontend/public/assets/generated and referenced directly by the React UI",
+        "Home page uses the hero/banner image in a header section",
+        "Logo is used in the top navigation and/or favicon area"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/shop-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated static logo asset to be referenced by the React UI (top navigation and/or favicon area)."
+        },
+        {
+          "path": "frontend/public/assets/generated/hero-banner.dim_1600x600.png",
+          "operation": "create",
+          "description": "Add the generated hero/banner asset to be referenced by the React UI (Home page hero section)."
+        },
+        {
+          "path": "frontend/public/assets/generated/empty-cart.dim_800x600.png",
+          "operation": "create",
+          "description": "Add the generated empty cart illustration asset to be referenced by the React UI (Cart empty state)."
+        },
+        {
+          "path": "frontend/src/components/layout/TopNav.tsx",
+          "operation": "modify",
+          "description": "Reference frontend/public/assets/generated/shop-logo.dim_512x512.png in the navigation brand area. Use shadcn-ui components for layout; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Reference frontend/public/assets/generated/hero-banner.dim_1600x600.png in the Home hero/header section. Use shadcn-ui components; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/CartPage.tsx",
+          "operation": "modify",
+          "description": "Reference frontend/public/assets/generated/empty-cart.dim_800x600.png in the cart empty state view. Use shadcn-ui components; verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

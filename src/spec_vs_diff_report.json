@@ -1,0 +1,167 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-07T20:06:57.214Z",
+  "summary": "The diff adds substantial frontend routing, pages/components for storefront/cart/checkout/orders/admin, Internet Identity hooks usage, React Query data hooks, and some backend models/method stubs. However, multiple backend data model fields, stable persistence across upgrades, order/cart semantics, seeding behavior, and required generated static assets are not evidenced in the diff summary. There are also added features not requested (user profiles, secret admin token init, and branding links).",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Backend stable storage/persistence across canister upgrades for products, carts, and orders using stable structures; complete product/order models including required fields; server-side user role checks for admin-only operations.",
+      "reason": "backend/main.mo shows in-memory Maps and counters but does not show any stable variables or preupgrade/postupgrade logic. The Product and Order types shown are missing several required fields (currency, image URLs array, seller id, updatedAt; order status and structured shipping address fields).",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Backend product browsing: paginated listing with cursor/offset, category filter, sort (newest/price), keyword search over title/description, and documentation in code comments.",
+      "reason": "Frontend hooks call listProducts(page,pageSize), searchProducts(keyword), and filterProductsByCategory(categoryId), but the backend diff excerpt does not evidence these methods, pagination semantics (cursor/offset), or documented sort options (newest/price).",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Product detail page shows image gallery and uses product image URLs; listing/search/filter/sort updates results; handles loading/empty/error states.",
+      "reason": "ProductCard renders a placeholder icon and no product image URLs are displayed; backend Product type shown has no image URLs. While ProductGrid has loading/empty handling, there is no evidence in the provided diff excerpt of sort UI/behavior or an image gallery on the product detail page.",
+      "evidence": [
+        "frontend/src/components/products/ProductCard.tsx",
+        "frontend/src/components/products/ProductGrid.tsx",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Cart end-to-end: add/remove/change quantity, cart totals, and persist cart per signed-in user restored on refresh.",
+      "reason": "Hooks show useGetCart gated by authentication, but the diff excerpt does not show backend cart persistence (stable storage) nor the backend methods for add/remove/update quantities and totals computation.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/components/layout/TopNav.tsx"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Checkout and orders: collect shipping address fields, validate stock on backend with clear error on insufficient stock, create order, decrement stock, clear cart, order confirmation, order history/detail with statuses.",
+      "reason": "Validation only shows a single address string; backend Order type has only `address : Text` and no status field, and there is no evidence of backend stock validation, stock decrement, or cart clearing on order creation in the excerpt.",
+      "evidence": [
+        "frontend/src/lib/validation.ts",
+        "backend/main.mo",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Admin/seller management: create/edit/delete products including image URLs and inventory; view incoming orders; admin-only protections server-side.",
+      "reason": "Frontend includes an AdminRouteGuard and product editor, but the ProductEditorDialog does not include image URLs. The backend excerpt does not show product CRUD methods, delete, or server-side authorization checks for those operations (beyond generic access control mixin usage).",
+      "evidence": [
+        "frontend/src/components/admin/ProductEditorDialog.tsx",
+        "frontend/src/components/auth/AdminRouteGuard.tsx",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Seed initial demo categories and products automatically on first deploy without overwriting on subsequent upgrades/deploys when state exists.",
+      "reason": "backend/main.mo contains an admin-only `initialize()` function that adds demo categories/products, but this is not automatic on first deploy and there is no evidence of a guard to prevent overwriting on upgrades or when state already exists.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "requirement": "Backend methods return structured errors for common failures (not found, unauthorized, validation, out of stock) and frontend displays them consistently.",
+      "reason": "backend/main.mo uses Runtime.trap for unauthorized cases, which is not a structured error. Frontend uses toast/error.message in places, but no consistent pattern tied to structured backend error variants is evidenced.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/admin/ProductEditorDialog.tsx",
+        "frontend/src/components/auth/ProfileSetupModal.tsx"
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "requirement": "Analytics counters: increment product views when product detail fetched; increment purchases on order creation; provide popular products list based on counters.",
+      "reason": "backend Product includes `views` and `purchases`, and frontend has `useGetPopularProducts`, but the backend excerpt does not show any method that increments views on getProduct/fetch, nor purchase increment on successful order creation, nor a getPopularProducts method implementation.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "requirement": "Include required generated static brand assets under frontend/public/assets/generated (logo, hero banner, empty cart illustration) and render them in the UI (home hero banner and logo).",
+      "reason": "TopNav references the logo path, but the diff summary does not evidence the actual image files under frontend/public/assets/generated (they may be in omitted files). Also, there is no evidence of the hero banner usage on HomePage or the empty-cart illustration usage in CartPage within the shown diffs.",
+      "evidence": [
+        "frontend/src/components/layout/TopNav.tsx",
+        "frontend/src/App.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "User profile (name/email) storage and a mandatory profile setup modal flow.",
+      "reason": "The BuildRequest only requires showing the logged-in principal and sign-out; it does not request capturing or persisting user profile fields (name/email) nor forcing profile setup.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/auth/ProfileSetupModal.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/App.tsx",
+        "frontend/src/pages/AccountPage.tsx"
+      ]
+    },
+    {
+      "description": "Secret URL parameter-based admin access control initialization (caffeineAdminToken).",
+      "reason": "The BuildRequest does not request any secret-token-based initialization path; it only mentions Internet Identity auth and role checks server-side.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts"
+      ]
+    },
+    {
+      "description": "Footer promotional branding/link to caffeine.ai and placeholder About/Contact/Privacy links.",
+      "reason": "Not requested by the BuildRequest and introduces additional user-facing content beyond the specified app features.",
+      "evidence": [
+        "frontend/src/components/layout/Footer.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.72,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/admin/ProductEditorDialog.tsx",
+    "frontend/src/components/auth/AdminRouteGuard.tsx",
+    "frontend/src/components/auth/ProfileSetupModal.tsx",
+    "frontend/src/components/feedback/ErrorAlert.tsx",
+    "frontend/src/components/layout/AppLayout.tsx",
+    "frontend/src/components/layout/Footer.tsx",
+    "frontend/src/components/layout/TopNav.tsx",
+    "frontend/src/components/products/ProductCard.tsx",
+    "frontend/src/components/products/ProductGrid.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/lib/validation.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/AccountPage.tsx",
+    "frontend/src/pages/CartPage.tsx",
+    "frontend/src/pages/CheckoutPage.tsx",
+    "frontend/src/pages/HomePage.tsx",
+    "frontend/src/pages/OrderConfirmationPage.tsx",
+    "frontend/src/pages/OrderDetailPage.tsx",
+    "frontend/src/pages/OrdersPage.tsx",
+    "frontend/src/pages/ProductDetailPage.tsx",
+    "frontend/src/pages/ShopPage.tsx",
+    "frontend/src/pages/admin/AdminDashboardPage.tsx",
+    "frontend/src/pages/admin/AdminOrdersPage.tsx",
+    "frontend/src/pages/admin/AdminProductsPage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

@@ -1,0 +1,265 @@
+{
+  "kind": "build_request",
+  "title": "Flipkart-like e-commerce product selling app (catalog, cart, orders, admin)",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement Internet Identity sign-in and a basic account area that shows the logged-in principal and supports sign-out.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Built me product selling app like flipkart"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can sign in using Internet Identity and sees their principal on the UI",
+        "User can sign out and returns to signed-out state",
+        "Signed-in state is preserved across refresh (within the session handling provided by the template hooks)"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create backend data models and stable storage for an e-commerce app: products, categories, carts, orders, and user roles (buyer vs admin/seller).",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Built me product selling app like flipkart"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend compiles with a single main actor and persists products, carts, and orders across canister upgrades using stable structures",
+        "Each product includes: id, title, description, price, currency, category, image URLs (array), stock quantity, seller id, createdAt/updatedAt",
+        "Each order includes: id, buyer id, items (product id, quantity, unit price), totals, status, shipping address fields, createdAt",
+        "User roles are represented and can be checked server-side for admin-only operations"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Expose backend canister methods for product browsing and discovery: list products (paginated), filter by category, sort (newest/price), and keyword search over title/description.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Built me product selling app like flipkart"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Unauthenticated users can list and view products",
+        "List endpoint supports pagination (page size + cursor/offset)",
+        "Search supports a query string and returns relevant matches",
+        "Category filter and sort options are supported and documented in code comments"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Build the storefront UI: home page with featured sections, product listing page with search/filter/sort, and product detail page with images, price, stock, and add-to-cart controls.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Built me product selling app like flipkart"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can browse a product grid and open a product details view",
+        "Search, category filtering, and sorting update the product list results",
+        "Product detail page shows title, description, price, image gallery, stock status, and an Add to Cart button",
+        "UI uses React Query for data fetching/caching and handles loading/empty/error states"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Implement cart functionality end-to-end: add/remove items, change quantity, view cart totals, and persist cart per signed-in user (and optionally an ephemeral cart for signed-out users on the frontend).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Built me product selling app like flipkart"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Signed-in user’s cart is stored on the backend and restored on refresh",
+        "Cart UI shows line items, quantities, subtotal, and total",
+        "Quantity changes update totals immediately and are persisted",
+        "Removing an item updates backend and UI state"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Implement checkout and orders without external payments: collect a shipping address, validate stock, create an order, decrement stock, and show an order confirmation + order history page.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Built me product selling app like flipkart"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Checkout form collects shipping address and validates required fields",
+        "Placing an order creates an order record and clears the cart",
+        "Stock is validated on the backend; if insufficient, order creation fails with a clear error",
+        "User can view order history and order detail pages with statuses (e.g., Pending, Confirmed, Shipped, Delivered, Cancelled)"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Add an admin/seller management area (role-protected): create/edit/delete products, manage inventory (stock), and view incoming orders.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Built me product selling app like flipkart"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Admin-only routes are hidden/blocked for non-admin users",
+        "Admin can create a product with title, description, price, category, stock, and image URLs",
+        "Admin can edit and delete products",
+        "Admin can view a list of orders and inspect order details"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Seed the app with initial demo data (categories + a set of products) to make the storefront usable immediately after deployment.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Built me product selling app like flipkart"
+        ]
+      },
+      "acceptanceCriteria": [
+        "On first deploy (fresh state), backend initializes a small catalog of categories and products",
+        "Seeding does not overwrite existing data on subsequent upgrades/deploys when state already exists"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Create a coherent, modern visual theme for the e-commerce UI (colors, typography, spacing, components) and apply it consistently across storefront, cart, checkout, and admin pages (avoid a blue/purple-dominant palette).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Built me product selling app like flipkart"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Theme is consistently applied across all pages with Tailwind styling and existing UI components",
+        "Layout is responsive for mobile and desktop (navigation, grids, forms)",
+        "No blue/purple-dominant palette is used in the primary theme colors"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Add basic navigation and routing for: Home, Shop/Browse, Product Detail, Cart, Checkout, Orders, Account, and Admin (if authorized).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Built me product selling app like flipkart"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All routes are reachable via UI navigation",
+        "Unauthorized access to admin pages is blocked with a clear message or redirect",
+        "Deep links to product details and orders work via route params"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Add input validation and user-friendly error messaging across critical flows (product creation, cart updates, checkout, order creation).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Built me product selling app like flipkart"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Frontend forms show inline validation errors for required fields and invalid values",
+        "Backend methods return structured errors for common failures (not found, unauthorized, validation, out of stock)",
+        "Frontend displays backend error messages in a consistent UI pattern"
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "Add lightweight analytics-like internal counters (no third-party analytics): track product views and purchases per product to support “Popular” sorting/sections.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Built me product selling app like flipkart"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend increments a product view counter when product detail is fetched (or via an explicit method called by the frontend)",
+        "Backend increments purchase counter upon successful order creation",
+        "Frontend can request a list of popular products based on these counters"
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "text": "Generate and include required static brand assets (logo and a simple hero/banner illustration) and render them from the frontend as static assets under frontend/public/assets/generated.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Built me product selling app like flipkart"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images are added under frontend/public/assets/generated and referenced directly by the React UI",
+        "Home page uses the hero/banner image in a header section",
+        "Logo is used in the top navigation and/or favicon area"
+      ]
+    }
+  ],
+  "constraints": [
+    "Use English for any user-facing text.",
+    "Backend must remain a single Motoko actor (no additional backend services).",
+    "Do not edit files under frontend/src/components/ui or other immutable paths listed by the system; compose them instead.",
+    "Do not integrate third-party authentication (only Internet Identity)."
+  ],
+  "nonGoals": [
+    "Real payment processing integration (use a no-payment/mock checkout flow).",
+    "Real-time features (live order tracking, websockets, chat).",
+    "External database or third-party backend services."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Minimal modern shopping bag logo with a warm neutral palette (shop-logo.dim_512x512.png)",
+      "Wide e-commerce hero banner illustration with abstract shopping shapes, warm neutral palette (hero-banner.dim_1600x600.png)",
+      "Empty state illustration: cart with no items, warm neutral palette (empty-cart.dim_800x600.png)"
+    ],
+    "edits": []
+  }
+}

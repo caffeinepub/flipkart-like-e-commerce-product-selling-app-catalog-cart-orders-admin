@@ -1,0 +1,197 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-internet-identity-sign-in-and-a-basic-account-area-that-shows-the-logged-in-principal-and-supports-sign-out",
+      "featureTitle": "Implement Internet Identity sign-in and a basic account area that shows the logged-in principal and supports sign-out.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/AccountPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-the-storefront-ui-home-page-with-featured-sections-product-listing-page-with-search-filter-sort-and-product-detail-page-with-images-price-stock-and-add-to-cart-controls",
+      "featureTitle": "Build the storefront UI: home page with featured sections, product listing page with search/filter/sort, and product detail page with images, price, stock, and add-to-cart controls.",
+      "files": [
+        "frontend/src/components/products/ProductCard.tsx",
+        "frontend/src/components/products/ProductGrid.tsx",
+        "frontend/src/pages/HomePage.tsx",
+        "frontend/src/pages/ProductDetailPage.tsx",
+        "frontend/src/pages/ShopPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-cart-functionality-end-to-end-add-remove-items-change-quantity-view-cart-totals-and-persist-cart-per-signed-in-user-and-optionally-an-ephemeral-cart-for-signed-out-users-on-the-frontend",
+      "featureTitle": "Implement cart functionality end-to-end: add/remove items, change quantity, view cart totals, and persist cart per signed-in user (and optionally an ephemeral cart for signed-out users on the frontend).",
+      "files": [
+        "frontend/src/pages/CartPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-checkout-and-orders-without-external-payments-collect-a-shipping-address-validate-stock-create-an-order-decrement-stock-and-show-an-order-confirmation-order-history-page",
+      "featureTitle": "Implement checkout and orders without external payments: collect a shipping address, validate stock, create an order, decrement stock, and show an order confirmation + order history page.",
+      "files": [
+        "frontend/src/pages/CheckoutPage.tsx",
+        "frontend/src/pages/OrderConfirmationPage.tsx",
+        "frontend/src/pages/OrderDetailPage.tsx",
+        "frontend/src/pages/OrdersPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-an-admin-seller-management-area-role-protected-create-edit-delete-products-manage-inventory-stock-and-view-incoming-orders",
+      "featureTitle": "Add an admin/seller management area (role-protected): create/edit/delete products, manage inventory (stock), and view incoming orders.",
+      "files": [
+        "frontend/src/components/admin/ProductEditorDialog.tsx",
+        "frontend/src/components/auth/AdminRouteGuard.tsx",
+        "frontend/src/pages/admin/AdminDashboardPage.tsx",
+        "frontend/src/pages/admin/AdminOrdersPage.tsx",
+        "frontend/src/pages/admin/AdminProductsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-coherent-modern-visual-theme-for-the-e-commerce-ui-colors-typography-spacing-components-and-apply-it-consistently-across-storefront-cart-checkout-and-admin-pages-avoid-a-blue-purple-dominant-palette",
+      "featureTitle": "Create a coherent, modern visual theme for the e-commerce UI (colors, typography, spacing, components) and apply it consistently across storefront, cart, checkout, and admin pages (avoid a blue/purple-dominant palette).",
+      "files": [
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-basic-navigation-and-routing-for-home-shop-browse-product-detail-cart-checkout-orders-account-and-admin-if-authorized",
+      "featureTitle": "Add basic navigation and routing for: Home, Shop/Browse, Product Detail, Cart, Checkout, Orders, Account, and Admin (if authorized).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/layout/TopNav.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-input-validation-and-user-friendly-error-messaging-across-critical-flows-product-creation-cart-updates-checkout-order-creation",
+      "featureTitle": "Add input validation and user-friendly error messaging across critical flows (product creation, cart updates, checkout, order creation).",
+      "files": [
+        "frontend/src/components/feedback/ErrorAlert.tsx",
+        "frontend/src/lib/validation.ts",
+        "frontend/src/pages/CartPage.tsx",
+        "frontend/src/pages/CheckoutPage.tsx",
+        "frontend/src/pages/admin/AdminProductsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-generate-and-include-required-static-brand-assets-logo-and-a-simple-hero-banner-illustration-and-render-them-from-the-frontend-as-static-assets-under-frontend-public-assets-generated",
+      "featureTitle": "Generate and include required static brand assets (logo and a simple hero/banner illustration) and render them from the frontend as static assets under frontend/public/assets/generated.",
+      "files": [
+        "frontend/src/components/layout/TopNav.tsx",
+        "frontend/src/pages/CartPage.tsx",
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-13"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
