@@ -137,6 +137,14 @@ actor {
     categoriesMap.add(clothing.id, clothing);
     nextCategoryId += 1;
 
+    // Add Flowers category
+    let flowersCategory : Category = {
+      id = nextCategoryId;
+      name = "Flowers";
+    };
+    categoriesMap.add(flowersCategory.id, flowersCategory);
+    nextCategoryId += 1;
+
     // Add demo products
     let phone : Product = {
       id = nextProductId;
@@ -178,6 +186,63 @@ actor {
       purchases = 0;
     };
     productsMap.add(tshirt.id, tshirt);
+    nextProductId += 1;
+
+    // Add flower products
+    let roses : Product = {
+      id = nextProductId;
+      title = "Roses";
+      description = "A beautiful bouquet of fresh red roses";
+      price = 30_00; // $30.00
+      stock = 25;
+      categoryId = flowersCategory.id;
+      createdAt = Time.now();
+      views = 0;
+      purchases = 0;
+    };
+    productsMap.add(roses.id, roses);
+    nextProductId += 1;
+
+    let lilies : Product = {
+      id = nextProductId;
+      title = "Lilies";
+      description = "Elegant white lilies - perfect for any occasion";
+      price = 28_00; // $28.00
+      stock = 20;
+      categoryId = flowersCategory.id;
+      createdAt = Time.now();
+      views = 0;
+      purchases = 0;
+    };
+    productsMap.add(lilies.id, lilies);
+    nextProductId += 1;
+
+    let sunflowers : Product = {
+      id = nextProductId;
+      title = "Sunflowers";
+      description = "Bright and cheerful sunflowers bouquet";
+      price = 22_00; // $22.00
+      stock = 15;
+      categoryId = flowersCategory.id;
+      createdAt = Time.now();
+      views = 0;
+      purchases = 0;
+    };
+    productsMap.add(sunflowers.id, sunflowers);
+    nextProductId += 1;
+
+    let mixedBouquet : Product = {
+      id = nextProductId;
+      title = "Mixed Bouquet";
+      description = "A vibrant mix of seasonal flowers";
+      price = 35_00; // $35.00
+      stock = 10;
+      categoryId = flowersCategory.id;
+      createdAt = Time.now();
+      views = 0;
+      purchases = 0;
+    };
+    productsMap.add(mixedBouquet.id, mixedBouquet);
     nextProductId += 1;
   };
 

@@ -1,127 +1,28 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Build a product-selling e-commerce app similar to Flipkart.",
+  "summary": "New project",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Minimal modern shopping bag logo with a warm neutral palette (shop-logo.dim_512x512.png)\n- Wide e-commerce hero banner illustration with abstract shopping shapes, warm neutral palette (hero-banner.dim_1600x600.png)\n- Empty state illustration: cart with no items, warm neutral palette (empty-cart.dim_800x600.png)",
-  "existing_features": [
-    {
-      "id": "feature-implement-internet-identity-sign-in-and-a-basic-account-area-that-shows-the-logged-in-principal-and-supports-sign-out",
-      "title": "Implement Internet Identity sign-in and a basic account area that shows the logged-in principal and supports sign-out.",
-      "reqIds": [
-        "REQ-1"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-build-the-storefront-ui-home-page-with-featured-sections-product-listing-page-with-search-filter-sort-and-product-detail-page-with-images-price-stock-and-add-to-cart-controls",
-      "title": "Build the storefront UI: home page with featured sections, product listing page with search/filter/sort, and product detail page with images, price, stock, and add-to-cart controls.",
-      "reqIds": [
-        "REQ-4"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-implement-cart-functionality-end-to-end-add-remove-items-change-quantity-view-cart-totals-and-persist-cart-per-signed-in-user-and-optionally-an-ephemeral-cart-for-signed-out-users-on-the-frontend",
-      "title": "Implement cart functionality end-to-end: add/remove items, change quantity, view cart totals, and persist cart per signed-in user (and optionally an ephemeral cart for signed-out users on the frontend).",
-      "reqIds": [
-        "REQ-5"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-implement-checkout-and-orders-without-external-payments-collect-a-shipping-address-validate-stock-create-an-order-decrement-stock-and-show-an-order-confirmation-order-history-page",
-      "title": "Implement checkout and orders without external payments: collect a shipping address, validate stock, create an order, decrement stock, and show an order confirmation + order history page.",
-      "reqIds": [
-        "REQ-6"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-an-admin-seller-management-area-role-protected-create-edit-delete-products-manage-inventory-stock-and-view-incoming-orders",
-      "title": "Add an admin/seller management area (role-protected): create/edit/delete products, manage inventory (stock), and view incoming orders.",
-      "reqIds": [
-        "REQ-7"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-create-a-coherent-modern-visual-theme-for-the-e-commerce-ui-colors-typography-spacing-components-and-apply-it-consistently-across-storefront-cart-checkout-and-admin-pages-avoid-a-blue-purple-dominant-palette",
-      "title": "Create a coherent, modern visual theme for the e-commerce UI (colors, typography, spacing, components) and apply it consistently across storefront, cart, checkout, and admin pages (avoid a blue/purple-dominant palette).",
-      "reqIds": [
-        "REQ-9"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-basic-navigation-and-routing-for-home-shop-browse-product-detail-cart-checkout-orders-account-and-admin-if-authorized",
-      "title": "Add basic navigation and routing for: Home, Shop/Browse, Product Detail, Cart, Checkout, Orders, Account, and Admin (if authorized).",
-      "reqIds": [
-        "REQ-10"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-input-validation-and-user-friendly-error-messaging-across-critical-flows-product-creation-cart-updates-checkout-order-creation",
-      "title": "Add input validation and user-friendly error messaging across critical flows (product creation, cart updates, checkout, order creation).",
-      "reqIds": [
-        "REQ-11"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-generate-and-include-required-static-brand-assets-logo-and-a-simple-hero-banner-illustration-and-render-them-from-the-frontend-as-static-assets-under-frontend-public-assets-generated",
-      "title": "Generate and include required static brand assets (logo and a simple hero/banner illustration) and render them from the frontend as static assets under frontend/public/assets/generated.",
-      "reqIds": [
-        "REQ-13"
-      ],
-      "version": 1
-    }
-  ],
+  "existing_features": [],
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Create a Flipkart-like e-commerce product selling app (catalog, search/browse, product pages, cart, checkout/orders, user accounts, payments, seller/admin management).",
+      "summary": "Add a flower product to the app (create/display at least one flower product entry)",
       "reqIds": [],
       "status": "pending"
     },
     {
-      "id": "AR-3",
-      "summary": "Create backend data models and stable storage for an e-commerce app: products, categories, carts, orders, and user roles (buyer vs admin/seller).",
+      "id": "AR-2",
+      "summary": "Add a new product category named \"Flowers\" in the backend demo initialization flow, and create multiple flower products under that category so they appear in the storefront product list, search results, and category filter after an admin runs \"Initialize Demo Data\".",
       "reqIds": [
-        "REQ-2"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-4",
-      "summary": "Expose backend canister methods for product browsing and discovery: list products (paginated), filter by category, sort (newest/price), and keyword search over title/description.",
-      "reqIds": [
-        "REQ-3"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-9",
-      "summary": "Seed the app with initial demo data (categories + a set of products) to make the storefront usable immediately after deployment.",
-      "reqIds": [
-        "REQ-8"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-13",
-      "summary": "Add lightweight analytics-like internal counters (no third-party analytics): track product views and purchases per product to support “Popular” sorting/sections.",
-      "reqIds": [
-        "REQ-12"
+        "REQ-1"
       ],
       "status": "pending"
     }
   ],
-  "gameProjectType": "none",
-  "projectName": "Flipkart-like e-commerce product selling app (catalog, cart, orders, admin)",
+  "projectName": "Add flower products to demo catalog",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }
